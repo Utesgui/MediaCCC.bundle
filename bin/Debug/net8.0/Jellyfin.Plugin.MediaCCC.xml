@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Jellyfin.Plugin.MediaCCC</name>
+    </assembly>
+    <members>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient">
+            <summary>
+            MediaCCC API-Client.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient.#ctor(Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient},System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient"/> class.
+            </summary>
+            <param name="logger">Instance of the <see cref="T:Microsoft.Extensions.Logging.ILogger"/> interface.</param>
+            <param name="httpClient">Http client.</param>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient.GetConferencesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Ruft alle Konferenzen ab.
+            </summary>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Liste der Konferenzen.</returns>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient.GetConferenceEventsAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Ruft alle Events einer Konferenz ab.
+            </summary>
+            <param name="conferenceId">ID der Konferenz.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Liste der Events.</returns>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient.GetEventAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Ruft ein bestimmtes Event ab.
+            </summary>
+            <param name="eventId">ID des Events.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>Event-Details.</returns>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.Models.Conference">
+            <summary>
+            Repräsentiert eine Konferenz.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.Acronym">
+            <summary>
+            Gets or sets the acronym.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.AspectRatio">
+            <summary>
+            Gets or sets the aspect ratio.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.Start">
+            <summary>
+            Gets or sets the start date.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.End">
+            <summary>
+            Gets or sets the end date.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.Url">
+            <summary>
+            Gets or sets the URL.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.WebgenLocation">
+            <summary>
+            Gets or sets the webgen location.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.LogoUrl">
+            <summary>
+            Gets or sets the logo URL.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Conference.Images">
+            <summary>
+            Gets or sets the images.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.Models.ConferenceImages">
+            <summary>
+            Repräsentiert die Bilder einer Konferenz.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.ConferenceImages.LogoUrl">
+            <summary>
+            Gets or sets the logo URL.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.ConferenceImages.Thumbnail">
+            <summary>
+            Gets or sets the thumbnail URL.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.Models.ConferenceDetail">
+            <summary>
+            Repräsentiert detaillierte Informationen zu einer Konferenz.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.ConferenceDetail.Events">
+            <summary>
+            Gets or sets the events.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.Models.Event">
+            <summary>
+            Repräsentiert ein Event.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Guid">
+            <summary>
+            Gets or sets the guid.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Subtitle">
+            <summary>
+            Gets or sets the subtitle.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Description">
+            <summary>
+            Gets or sets the description.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Duration">
+            <summary>
+            Gets or sets the duration in seconds.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.ThumbUrl">
+            <summary>
+            Gets or sets the thumbnail URL.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.PosterUrl">
+            <summary>
+            Gets or sets the poster URL.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Url">
+            <summary>
+            Gets or sets the URL.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.OriginalLanguage">
+            <summary>
+            Gets or sets the original language.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Date">
+            <summary>
+            Gets or sets the date.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Event.Tags">
+            <summary>
+            Gets or sets the tags.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.Models.EventDetail">
+            <summary>
+            Detaillierte Informationen zu einem Event.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.EventDetail.Recordings">
+            <summary>
+            Gets or sets the recordings.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.EventDetail.Persons">
+            <summary>
+            Gets or sets the persons.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.Models.Recording">
+            <summary>
+            Eine Aufnahme eines Events.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Size">
+            <summary>
+            Gets or sets the size.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Length">
+            <summary>
+            Gets or sets the length.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.MimeType">
+            <summary>
+            Gets or sets the mime type.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Language">
+            <summary>
+            Gets or sets the language.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Filename">
+            <summary>
+            Gets or sets the filename.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Folder">
+            <summary>
+            Gets or sets the folder.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.RecordingUrl">
+            <summary>
+            Gets or sets the URL of the recording.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Width">
+            <summary>
+            Gets or sets the width.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Height">
+            <summary>
+            Gets or sets the height.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Api.Models.Recording.Type">
+            <summary>
+            Gets or sets the type.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration">
+            <summary>
+            Klasse für die Konfiguration des MediaCCC-Plugins.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration.MaxItems">
+            <summary>
+            Maximale Anzahl an Items, die geladen werden sollen.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration.EnabledForMovies">
+            <summary>
+            Gibt an, ob das Plugin für Filme aktiviert ist.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration.CacheMinutes">
+            <summary>
+            Cache-Zeit in Minuten.
+            </summary>
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Plugin">
+            <summary>
+            MediaCCC Plugin für Jellyfin
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.#ctor(MediaBrowser.Common.Configuration.IApplicationPaths,MediaBrowser.Model.Serialization.IXmlSerializer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Plugin"/> class.
+            </summary>
+            <param name="applicationPaths">Instance of the <see cref="T:MediaBrowser.Common.Configuration.IApplicationPaths"/> interface.</param>
+            <param name="xmlSerializer">Instance of the <see cref="T:MediaBrowser.Model.Serialization.IXmlSerializer"/> interface.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Instance">
+            <summary>
+            Gets the current plugin instance.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Id">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.GetPages">
+            <inheritdoc />
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider">
+            <summary>
+            Media-Provider für MediaCCC-Inhalte.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider.#ctor(Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider},Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient,MediaBrowser.Controller.Library.ILibraryManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider"/> class.
+            </summary>
+            <param name="logger">Instance of the <see cref="T:Microsoft.Extensions.Logging.ILogger"/> interface.</param>
+            <param name="apiClient">Instance of the API client.</param>
+            <param name="libraryManager">Instance of the <see cref="T:MediaBrowser.Controller.Library.ILibraryManager"/> interface.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider.GetMetadata(MediaBrowser.Controller.Providers.MovieInfo,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider.GetSearchResults(MediaBrowser.Controller.Providers.MovieInfo,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider.GetImageResponse(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider">
+            <summary>
+            Media-Bilder-Provider für MediaCCC-Inhalte.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.#ctor(Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider},Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient,System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider"/> class.
+            </summary>
+            <param name="logger">Instance of the <see cref="T:Microsoft.Extensions.Logging.ILogger"/> interface.</param>
+            <param name="apiClient">Instance of the API client.</param>
+            <param name="httpClient">Instance of HttpClient.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.Supports(MediaBrowser.Controller.Entities.BaseItem)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.GetSupportedImages(MediaBrowser.Controller.Entities.BaseItem)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.GetImages(MediaBrowser.Controller.Entities.BaseItem,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.GetImageResponse(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

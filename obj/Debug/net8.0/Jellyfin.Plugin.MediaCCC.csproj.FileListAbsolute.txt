@@ -1,0 +1,15 @@
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.csproj.AssemblyReference.cache
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.AssemblyInfoInputs.cache
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.AssemblyInfo.cs
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.csproj.CoreCompileInputs.cache
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.sourcelink.json
+/workspaces/MediaCCC.bundle/bin/Debug/net8.0/Jellyfin.Plugin.MediaCCC.deps.json
+/workspaces/MediaCCC.bundle/bin/Debug/net8.0/Jellyfin.Plugin.MediaCCC.dll
+/workspaces/MediaCCC.bundle/bin/Debug/net8.0/Jellyfin.Plugin.MediaCCC.pdb
+/workspaces/MediaCCC.bundle/bin/Debug/net8.0/Jellyfin.Plugin.MediaCCC.xml
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.dll
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/refint/Jellyfin.Plugin.MediaCCC.dll
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.xml
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/Jellyfin.Plugin.MediaCCC.pdb
+/workspaces/MediaCCC.bundle/obj/Debug/net8.0/ref/Jellyfin.Plugin.MediaCCC.dll

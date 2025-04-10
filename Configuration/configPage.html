@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MediaCCC</title>
+</head>
+<body>
+    <div id="MediaCCCConfigPage" data-role="page" class="page type-interior pluginConfigurationPage">
+        <div data-role="content">
+            <div class="content-primary">
+                <form class="MediaCCCConfigForm">
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="maxItems" label="Maximale Anzahl an Items:" min="10" max="500" />
+                        <div class="fieldDescription">Die maximale Anzahl der Items, die aus dem MediaCCC-Repository geladen werden.</div>
+                    </div>
+                    <div class="checkboxContainer">
+                        <label class="emby-checkbox-label">
+                            <input is="emby-checkbox" type="checkbox" id="enabledForMovies" />
+                            <span>Für Filme aktivieren</span>
+                        </label>
+                    </div>
+                    <div class="inputContainer">
+                        <input is="emby-input" type="number" id="cacheMinutes" label="Cache-Zeit (Minuten):" min="10" max="1440" />
+                        <div class="fieldDescription">Wie lange Daten im Cache gespeichert werden sollen.</div>
+                    </div>
+                    <div>
+                        <button is="emby-button" type="submit" class="raised button-submit block emby-button">
+                            <span>Speichern</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var MediaCCCConfigPage = {
+                pluginId: '3FDF2113-F56A-46D0-AABB-D5933DF8B3B3',
+                
+                loadConfiguration: function() {
+                    Dashboard.showLoadingMsg();
+                    
+                    ApiClient.getPluginConfiguration(this.pluginId).then(function(config) {
+                        document.getElementById('maxItems').value = config.MaxItems;
+                        document.getElementById('enabledForMovies').checked = config.EnabledForMovies;
+                        document.getElementById('cacheMinutes').value = config.CacheMinutes;
+                        
+                        Dashboard.hideLoadingMsg();
+                    });
+                },
+                
+                saveConfiguration: function() {
+                    Dashboard.showLoadingMsg();
+                    
+                    ApiClient.getPluginConfiguration(this.pluginId).then(function(config) {
+                        config.MaxItems = document.getElementById('maxItems').value;
+                        config.EnabledForMovies = document.getElementById('enabledForMovies').checked;
+                        config.CacheMinutes = document.getElementById('cacheMinutes').value;
+                        
+                        ApiClient.updatePluginConfiguration(MediaCCCConfigPage.pluginId, config).then(function() {
+                            Dashboard.processPluginConfigurationUpdateResult();
+                        });
+                    });
+                },
+            };
+            
+            document.querySelector('.MediaCCCConfigForm')
+                .addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    MediaCCCConfigPage.saveConfiguration();
+                });
+                
+            document.getElementById('MediaCCCConfigPage')
+                .addEventListener('pageshow', function() {
+                    MediaCCCConfigPage.loadConfiguration();
+                });
+        </script>
+    </div>
+</body>
+</html>
