@@ -1,0 +1,12 @@
+{
+  "id": "com.utesgui.mediaccc",
+  "name": "Media CCC",
+  "version": "1.0.0",
+  "description": "Unofficial Jellyfin plugin to browse content on media.ccc.de",
+  "author": "Utesgui",
+  "target": "Jellyfin",
+  "icon": "icon-default.png",
+  "art": "art-default.jpg",
+  "homepage": "https://github.com/Utesgui/MediaCCC.bundle",
+  "license": "MIT"
+}
