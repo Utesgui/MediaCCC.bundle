@@ -295,6 +295,9 @@
         <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.GetPages">
             <inheritdoc />
         </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <inheritdoc />
+        </member>
         <member name="T:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider">
             <summary>
             Media-Provider für MediaCCC-Inhalte.

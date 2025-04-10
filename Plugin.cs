@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using Jellyfin.Plugin.MediaCCC.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
+using MediaBrowser.Controller.Library;
+using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Jellyfin.Plugin.MediaCCC
 {
@@ -46,6 +49,13 @@ namespace Jellyfin.Plugin.MediaCCC
                     EmbeddedResourcePath = $"{GetType().Namespace}.Configuration.configPage.html"
                 }
             };
+        }
+
+        /// <inheritdoc />
+        public void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            // Register the metadata provider
+            serviceCollection.AddSingleton<IRemoteMetadataProvider, Providers.MediaCccContentProvider>();
         }
     }
 }
