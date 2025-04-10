@@ -59,8 +59,11 @@ namespace Jellyfin.Plugin.MediaCCC
         {
             // Register HttpClient for MediaCccApiClient
             serviceCollection.AddHttpClient<Api.MediaCccApiClient>();
-            
-            // Register the metadata providers - using exact types directly from the provider
+
+            // Register the Voctoweb API client
+            serviceCollection.AddHttpClient<Api.VoctowebApiClient>();
+
+            // Register the metadata providers
             serviceCollection.AddSingleton<IRemoteMetadataProvider<Movie, MovieInfo>, Providers.MediaCccContentProvider>();
             serviceCollection.AddSingleton<IRemoteImageProvider, Providers.MediaCccImageProvider>();
         }

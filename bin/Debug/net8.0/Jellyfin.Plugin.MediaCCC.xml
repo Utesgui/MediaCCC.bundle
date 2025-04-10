@@ -4,6 +4,35 @@
         <name>Jellyfin.Plugin.MediaCCC</name>
     </assembly>
     <members>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Plugin">
+            <summary>
+            MediaCCC Plugin für Jellyfin
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.#ctor(MediaBrowser.Common.Configuration.IApplicationPaths,MediaBrowser.Model.Serialization.IXmlSerializer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Plugin"/> class.
+            </summary>
+            <param name="applicationPaths">Instance of the <see cref="T:MediaBrowser.Common.Configuration.IApplicationPaths"/> interface.</param>
+            <param name="xmlSerializer">Instance of the <see cref="T:MediaBrowser.Model.Serialization.IXmlSerializer"/> interface.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Instance">
+            <summary>
+            Gets the current plugin instance.
+            </summary>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Id">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.GetPages">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <inheritdoc />
+        </member>
         <member name="T:Jellyfin.Plugin.MediaCCC.Api.MediaCccApiClient">
             <summary>
             MediaCCC API-Client.
@@ -244,6 +273,41 @@
             Gets or sets the type.
             </summary>
         </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient">
+            <summary>
+            API-Client für die Voctoweb JSON-API.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient.#ctor(Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient},System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient"/> class.
+            </summary>
+            <param name="logger">Logger-Instanz.</param>
+            <param name="httpClient">HttpClient-Instanz.</param>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient.GetConferencesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Ruft eine Liste von Konferenzen ab.
+            </summary>
+            <param name="cancellationToken">Abbruch-Token.</param>
+            <returns>Eine Liste von Konferenzen.</returns>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient.GetConferenceDetailAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Ruft Details zu einer Konferenz ab.
+            </summary>
+            <param name="conferenceId">Die ID der Konferenz.</param>
+            <param name="cancellationToken">Abbruch-Token.</param>
+            <returns>Details der Konferenz.</returns>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient.GetEventAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Ruft Details zu einem Event ab.
+            </summary>
+            <param name="eventId">Die ID des Events.</param>
+            <param name="cancellationToken">Abbruch-Token.</param>
+            <returns>Details des Events.</returns>
+        </member>
         <member name="T:Jellyfin.Plugin.MediaCCC.Configuration.PluginConfiguration">
             <summary>
             Klasse für die Konfiguration des MediaCCC-Plugins.
@@ -268,35 +332,6 @@
             <summary>
             Cache-Zeit in Minuten.
             </summary>
-        </member>
-        <member name="T:Jellyfin.Plugin.MediaCCC.Plugin">
-            <summary>
-            MediaCCC Plugin für Jellyfin
-            </summary>
-        </member>
-        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.#ctor(MediaBrowser.Common.Configuration.IApplicationPaths,MediaBrowser.Model.Serialization.IXmlSerializer)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Plugin"/> class.
-            </summary>
-            <param name="applicationPaths">Instance of the <see cref="T:MediaBrowser.Common.Configuration.IApplicationPaths"/> interface.</param>
-            <param name="xmlSerializer">Instance of the <see cref="T:MediaBrowser.Model.Serialization.IXmlSerializer"/> interface.</param>
-        </member>
-        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Instance">
-            <summary>
-            Gets the current plugin instance.
-            </summary>
-        </member>
-        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Name">
-            <inheritdoc />
-        </member>
-        <member name="P:Jellyfin.Plugin.MediaCCC.Plugin.Id">
-            <inheritdoc />
-        </member>
-        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.GetPages">
-            <inheritdoc />
-        </member>
-        <member name="M:Jellyfin.Plugin.MediaCCC.Plugin.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <inheritdoc />
         </member>
         <member name="T:Jellyfin.Plugin.MediaCCC.Providers.MediaCccContentProvider">
             <summary>
@@ -349,6 +384,60 @@
             <inheritdoc />
         </member>
         <member name="M:Jellyfin.Plugin.MediaCCC.Providers.MediaCccImageProvider.GetImageResponse(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider">
+            <summary>
+            Bild-Provider für Voctoweb-Inhalte.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider.#ctor(Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider},Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider"/> class.
+            </summary>
+            <param name="logger">Logger-Instanz.</param>
+            <param name="apiClient">API-Client-Instanz.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider.Supports(MediaBrowser.Controller.Entities.BaseItem)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider.GetSupportedImages(MediaBrowser.Controller.Entities.BaseItem)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider.GetImages(MediaBrowser.Controller.Entities.BaseItem,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebImageProvider.GetImageResponse(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider">
+            <summary>
+            Metadaten-Provider für Voctoweb-Inhalte.
+            </summary>
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider.#ctor(Microsoft.Extensions.Logging.ILogger{Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider},Jellyfin.Plugin.MediaCCC.Api.VoctowebApiClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider"/> class.
+            </summary>
+            <param name="logger">Logger-Instanz.</param>
+            <param name="apiClient">API-Client-Instanz.</param>
+        </member>
+        <member name="P:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider.GetMetadata(MediaBrowser.Controller.Providers.MovieInfo,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider.GetImageResponse(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider.GetMetadata(MediaBrowser.Controller.Providers.MovieInfo,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Jellyfin.Plugin.MediaCCC.Providers.VoctowebMetadataProvider.GetSearchResults(MediaBrowser.Controller.Providers.MovieInfo,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
     </members>
