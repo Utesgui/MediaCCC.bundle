@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Jellyfin.Plugin.MediaCCC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc296757d8f919d3891d1272c40878860b2d3582")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ca8f5b5b040f6fe45654349948c513dad24e4d0")]
 [assembly: System.Reflection.AssemblyProductAttribute("Jellyfin.Plugin.MediaCCC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Jellyfin.Plugin.MediaCCC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

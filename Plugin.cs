@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using Jellyfin.Plugin.MediaCCC.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
+using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Providers;
 using MediaBrowser.Model.Plugins;
+using MediaBrowser.Model.Providers;
 using MediaBrowser.Model.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -55,10 +57,12 @@ namespace Jellyfin.Plugin.MediaCCC
         /// <inheritdoc />
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            // Register the metadata provider
-            serviceCollection.AddSingleton<IRemoteMetadataProvider, Providers.MediaCccContentProvider>();
-            // Register the API client
+            // Register the API client first so it's available for injection
             serviceCollection.AddSingleton<Api.MediaCccApiClient>();
+
+            // Register the metadata providers - using exact types directly from the provider
+            serviceCollection.AddSingleton<IRemoteMetadataProvider<Movie, MovieInfo>, Providers.MediaCccContentProvider>();
+            serviceCollection.AddSingleton<IRemoteImageProvider, Providers.MediaCccImageProvider>();
         }
     }
 }
