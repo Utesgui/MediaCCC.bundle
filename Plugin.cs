@@ -57,9 +57,9 @@ namespace Jellyfin.Plugin.MediaCCC
         /// <inheritdoc />
         public void ConfigureServices(IServiceCollection serviceCollection)
         {
-            // Register the API client first so it's available for injection
-            serviceCollection.AddSingleton<Api.MediaCccApiClient>();
-
+            // Register HttpClient for MediaCccApiClient
+            serviceCollection.AddHttpClient<Api.MediaCccApiClient>();
+            
             // Register the metadata providers - using exact types directly from the provider
             serviceCollection.AddSingleton<IRemoteMetadataProvider<Movie, MovieInfo>, Providers.MediaCccContentProvider>();
             serviceCollection.AddSingleton<IRemoteImageProvider, Providers.MediaCccImageProvider>();
