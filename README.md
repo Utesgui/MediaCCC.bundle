@@ -1,9 +1,4 @@
-media.ccc.de for Plex
-=====================
+media.ccc.de for Jellyfin
+=========================
 
-This is the official Plex plugin to browse content on media.ccc.de.
-
-TODO
-----
-
-- Add links to current live streams (http://streaming.media.ccc.de/)
+This is the un-official Jellyfin plugin to browse content on media.ccc.de.
