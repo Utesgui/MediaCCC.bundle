@@ -45,8 +45,9 @@ namespace Jellyfin.Plugin.MediaCCC
             {
                 new PluginPageInfo
                 {
-                    Name = Name,
-                    EmbeddedResourcePath = $"{GetType().Namespace}.Configuration.configPage.html"
+                    Name = "MediaCCC",
+                    EmbeddedResourcePath = $"{GetType().Namespace}.Configuration.configPage.html",
+                    EnableInMainMenu = true
                 }
             };
         }
@@ -56,6 +57,8 @@ namespace Jellyfin.Plugin.MediaCCC
         {
             // Register the metadata provider
             serviceCollection.AddSingleton<IRemoteMetadataProvider, Providers.MediaCccContentProvider>();
+            // Register the API client
+            serviceCollection.AddSingleton<Api.MediaCccApiClient>();
         }
     }
 }
