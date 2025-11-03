@@ -590,7 +590,10 @@ function Main {
     }
     
     # Process conferences in parallel (PowerShell 7+)
-    Write-Log "Processing conferences in parallel (max 10 concurrent)..." -Level INFO
+    Write-Log "Processing conferences in parallel (max 5 concurrent)..." -Level INFO
+    
+    $totalConferences = $conferences.Count
+    $progressTracker = [System.Collections.Concurrent.ConcurrentDictionary[string, object]]::new()
     
     $conferences | ForEach-Object -Parallel {
         # Import functions and variables into parallel runspace
@@ -600,6 +603,8 @@ function Main {
         $Force = $using:Force
         $LogFile = $using:LogFile
         $VerbosePreference = $using:VerbosePreference
+        $progressTracker = $using:progressTracker
+        $totalConferences = $using:totalConferences
         
         # Re-define helper functions in parallel scope
         function Write-Log {
@@ -1034,7 +1039,17 @@ function Main {
             
             Write-Log "Processing $($events.Count) events in $acronym..." -Level INFO
             
+            $eventIndex = 0
             foreach ($event in $events) {
+                $eventIndex++
+                
+                # Show progress for this conference
+                $percentComplete = [Math]::Round(($eventIndex / $events.Count) * 100)
+                Write-Progress -Activity "[$acronym] Processing Events" `
+                              -Status "Event $eventIndex of $($events.Count): $($event.title)" `
+                              -PercentComplete $percentComplete `
+                              -Id ([math]::Abs($acronym.GetHashCode()))
+                
                 $eventResult = Process-Event -EventSummary $event -BasePath $conferencePath -ConferenceTitle $conference.title
                 
                 $localStats.EventsProcessed += $eventResult.EventProcessed
@@ -1043,6 +1058,9 @@ function Main {
                 $localStats.Errors += $eventResult.Error
                 $localStats.Skipped += $eventResult.Skipped
             }
+            
+            # Complete the progress bar for this conference
+            Write-Progress -Activity "[$acronym] Processing Events" -Completed -Id ([math]::Abs($acronym.GetHashCode()))
             
             Write-Log "Completed ${acronym}: $($localStats.EventsProcessed) events, $($localStats.StrmFilesCreated) STRM files, $($localStats.NfoFilesCreated) NFO files" -Level SUCCESS
             
@@ -1060,7 +1078,7 @@ function Main {
             return @{ Error = 1; ConferenceProcessed = 0 }
         }
         
-    } -ThrottleLimit 10 | ForEach-Object {
+    } -ThrottleLimit 5 | ForEach-Object {
         # Aggregate results from parallel processing
         $script:Stats.ConferencesProcessed += $_.ConferenceProcessed
         $script:Stats.EventsProcessed += $_.EventsProcessed
@@ -1068,7 +1086,20 @@ function Main {
         $script:Stats.NfoFilesCreated += $_.NfoFilesCreated
         $script:Stats.Errors += $_.Errors
         $script:Stats.Skipped += $_.Skipped
+        
+        # Update overall progress
+        $completedCount = $script:Stats.ConferencesProcessed
+        $percentComplete = if ($totalConferences -gt 0) { 
+            [Math]::Round(($completedCount / $totalConferences) * 100) 
+        } else { 0 }
+        
+        Write-Progress -Activity "Overall Progress: Processing Media CCC Library" `
+                      -Status "$completedCount of $totalConferences conferences completed | $($script:Stats.EventsProcessed) events, $($script:Stats.StrmFilesCreated) STRM files, $($script:Stats.NfoFilesCreated) NFO files" `
+                      -PercentComplete $percentComplete `
+                      -Id 0
     }
+    
+    Write-Progress -Activity "Overall Progress: Processing Media CCC Library" -Completed -Id 0
     
     # Print summary
     Write-Log "`n=== Generation Complete ===" -Level SUCCESS
