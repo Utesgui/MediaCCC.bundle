@@ -1,0 +1,16 @@
+# Test output
+test-output/
+jellyfin-mediaccc/
+
+# Logs
+*.log
+
+# PowerShell module cache
+*.psm1
+
+# Package files
+*.deb
+
+# OS files
+.DS_Store
+Thumbs.db
