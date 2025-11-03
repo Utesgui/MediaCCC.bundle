@@ -154,22 +154,36 @@ function Get-SanitizedFilename {
     return $sanitized
 }
 
-function Get-HighestQualityMP4 {
+function Get-BestVideoRecording {
     param([array]$Recordings)
     
-    # Filter to only MP4 videos
-    $mp4Videos = $Recordings | Where-Object { 
-        $_.mime_type -eq 'video/mp4' -and $_.recording_url -match '\.mp4$'
+    # Filter to video recordings only (MP4 or WebM)
+    $videoRecordings = $Recordings | Where-Object { 
+        $_.mime_type -in @('video/mp4', 'video/webm')
     }
     
-    if ($mp4Videos.Count -eq 0) {
+    if ($videoRecordings.Count -eq 0) {
         return $null
     }
     
-    # Sort by height (resolution) descending, then by width
-    $highestQuality = $mp4Videos | Sort-Object -Property @{Expression={$_.height}; Descending=$true}, @{Expression={$_.width}; Descending=$true} | Select-Object -First 1
+    # Prefer MP4 over WebM (better compatibility)
+    $mp4Videos = $videoRecordings | Where-Object { $_.mime_type -eq 'video/mp4' }
+    $webmVideos = $videoRecordings | Where-Object { $_.mime_type -eq 'video/webm' }
     
-    return $highestQuality
+    # Try MP4 first
+    if ($mp4Videos.Count -gt 0) {
+        $best = $mp4Videos | Sort-Object -Property @{Expression={$_.height}; Descending=$true}, @{Expression={$_.width}; Descending=$true} | Select-Object -First 1
+        return $best
+    }
+    
+    # Fallback to WebM if no MP4
+    if ($webmVideos.Count -gt 0) {
+        $best = $webmVideos | Sort-Object -Property @{Expression={$_.height}; Descending=$true}, @{Expression={$_.width}; Descending=$true} | Select-Object -First 1
+        Write-Verbose "Using WebM fallback for recording (no MP4 available)"
+        return $best
+    }
+    
+    return $null
 }
 
 function New-NFOFile {
@@ -178,7 +192,7 @@ function New-NFOFile {
         [hashtable]$Metadata
     )
     
-    if ((Test-Path $Path) -and -not $Force) {
+    if ((Test-Path -LiteralPath $Path) -and -not $Force) {
         Write-Verbose "NFO exists: $Path"
         $script:Stats.Skipped++
         return
@@ -370,15 +384,15 @@ function New-STRMFile {
         [string]$StreamUrl
     )
     
-    if ((Test-Path $Path) -and -not $Force) {
+    if ((Test-Path -LiteralPath $Path) -and -not $Force) {
         Write-Verbose "STRM exists: $Path"
         $script:Stats.Skipped++
         return
     }
     
     if (-not $DryRun) {
-        # Use Out-File for better compatibility across PowerShell versions
-        $StreamUrl | Out-File -FilePath $Path -Encoding ascii -NoNewline
+        # Use -LiteralPath to avoid wildcard interpretation (e.g., brackets, underscores)
+        $StreamUrl | Out-File -LiteralPath $Path -Encoding ascii -NoNewline
         $script:Stats.StrmFilesCreated++
     }
     else {
@@ -424,13 +438,17 @@ function Process-Event {
             return
         }
         
-        # Get highest quality MP4
-        $bestRecording = Get-HighestQualityMP4 -Recordings $eventDetails.recordings
+        # Get best video recording (MP4 preferred, WebM fallback)
+        $bestRecording = Get-BestVideoRecording -Recordings $eventDetails.recordings
         if (-not $bestRecording) {
-            Write-Log "No MP4 recording found for: $($EventSummary.title)" -Level WARN
+            Write-Log "No video recording (MP4/WebM) found for: $($EventSummary.title)" -Level WARN
             $script:Stats.Skipped++
             return
         }
+        
+        # Log format being used
+        $format = if ($bestRecording.mime_type -eq 'video/mp4') { 'MP4' } else { 'WebM' }
+        Write-Verbose "Using $format for: $($EventSummary.title) (${bestRecording.width}x${bestRecording.height})"
         
         # Sanitize title for filename
         $safeTitle = Get-SanitizedFilename -Filename $eventDetails.title
