@@ -47,7 +47,7 @@ param(
     [string]$ConferenceFilter = "",
 
     [Parameter(Mandatory=$false)]
-    [int]$MaxConcurrent = 5,
+    [int]$MaxConcurrent = 4,
 
     [Parameter(Mandatory=$false)]
     [switch]$DryRun = $false,
@@ -589,24 +589,19 @@ function Main {
         Write-Log "Filtered to $($conferences.Count) conferences: $ConferenceFilter" -Level INFO
     }
     
-    # Process conferences in parallel (PowerShell 7+)
-    Write-Log "Processing conferences in parallel (max 5 concurrent)..." -Level INFO
-    
     $totalConferences = $conferences.Count
-    $progressTracker = [System.Collections.Concurrent.ConcurrentDictionary[string, object]]::new()
+    
+    # Process conferences in parallel
+    Write-Log "Processing conferences in parallel (max $MaxConcurrent concurrent)..." -Level INFO
     
     $conferences | ForEach-Object -Parallel {
-        # Import functions and variables into parallel runspace
+        # Re-define functions in parallel scope
+        $LogFile = $using:LogFile
         $API_BASE_URL = $using:API_BASE_URL
         $OutputPath = $using:OutputPath
         $DryRun = $using:DryRun
         $Force = $using:Force
-        $LogFile = $using:LogFile
-        $VerbosePreference = $using:VerbosePreference
-        $progressTracker = $using:progressTracker
-        $totalConferences = $using:totalConferences
         
-        # Re-define helper functions in parallel scope
         function Write-Log {
             param(
                 [string]$Message,
@@ -995,7 +990,7 @@ function Main {
             }
         }
         
-        # Process the conference
+        # Process this conference
         $conference = $_
         $localStats = @{
             EventsProcessed = 0
@@ -1022,9 +1017,6 @@ function Main {
             }
             
             $webgenLocation = $conference.webgen_location
-            
-            # Use full webgen_location path to preserve top-level folders
-            # (conferences, congress, events, documentations, etc.)
             $conferencePath = Join-Path $OutputPath $webgenLocation
             
             if (-not $DryRun) {
@@ -1043,7 +1035,6 @@ function Main {
             foreach ($event in $events) {
                 $eventIndex++
                 
-                # Show progress for this conference
                 $percentComplete = [Math]::Round(($eventIndex / $events.Count) * 100)
                 Write-Progress -Activity "[$acronym] Processing Events" `
                               -Status "Event $eventIndex of $($events.Count): $($event.title)" `
@@ -1059,7 +1050,6 @@ function Main {
                 $localStats.Skipped += $eventResult.Skipped
             }
             
-            # Complete the progress bar for this conference
             Write-Progress -Activity "[$acronym] Processing Events" -Completed -Id ([math]::Abs($acronym.GetHashCode()))
             
             Write-Log "Completed ${acronym}: $($localStats.EventsProcessed) events, $($localStats.StrmFilesCreated) STRM files, $($localStats.NfoFilesCreated) NFO files" -Level SUCCESS
@@ -1078,7 +1068,7 @@ function Main {
             return @{ Error = 1; ConferenceProcessed = 0 }
         }
         
-    } -ThrottleLimit 5 | ForEach-Object {
+    } -ThrottleLimit $MaxConcurrent | ForEach-Object {
         # Aggregate results from parallel processing
         $script:Stats.ConferencesProcessed += $_.ConferenceProcessed
         $script:Stats.EventsProcessed += $_.EventsProcessed
